@@ -103,6 +103,25 @@ Both methods show the theoretically expected `−1/2` slope. Antithetic achieves
 
 > **Note:** Empirical betas are measured over a limited N range. They describe observed behaviour over that range and should not be extrapolated as asymptotic guarantees.
 
+## Results
+
+All figures are generated at 300 dpi by `notebooks/analysis.ipynb` (saved under `figures/`).
+
+### Convergence Rates
+Log-log RMSE versus sample size `N` for plain Monte Carlo and antithetic variates, pricing an ATM European call. Both track the theoretical `O(N^{-1/2})` slope, and antithetic sits below plain MC at every `N`, reflecting its lower variance.
+
+![Monte Carlo convergence rates](figures/convergence.png)
+
+### Quasi-Monte Carlo: Sobol vs Pseudo-Random
+2D point distributions (top) show scrambled Sobol points filling the unit square far more uniformly than pseudo-random draws, which clump and leave gaps. The star discrepancy `D*_N` (bottom) decays roughly as `O(log N / N)` for Sobol versus `O(N^{-1/2})` for pseudo-random.
+
+![Sobol vs pseudo-random discrepancy](figures/sobol_discrepancy.png)
+
+### Heston Stochastic-Volatility Paths
+Sample asset-price paths (left) and their instantaneous volatility paths (right) under the Heston model, simulated with the full-truncation Milstein scheme. The mean-reverting variance produces volatility clustering absent from constant-volatility GBM.
+
+![Heston sample paths](figures/heston_paths.png)
+
 ## Known Limitations
 
 1. **QMC curse of dimensionality.** Sobol implementation supports up to 21 dimensions (Joe & Kuo 2010 direction numbers). For `n_steps > 21`, the first 21 directions use optimised numbers and the rest fall back to Van der Corput, degrading low-discrepancy property.
